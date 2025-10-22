@@ -1,10 +1,11 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { Link } from 'react-router-dom'
 import { type Collection } from '@/lib/supabase'
 
 interface CollectionCardProps {
   collection: Collection
-  onViewProducts: (collectionId: string) => void
+  onViewProducts?: (collectionId: string) => void
 }
 
 export const CollectionCard = ({ collection, onViewProducts }: CollectionCardProps) => {
@@ -39,9 +40,11 @@ export const CollectionCard = ({ collection, onViewProducts }: CollectionCardPro
           <Button 
             variant="outline" 
             className="w-full border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all"
-            onClick={() => onViewProducts(collection.id)}
+            asChild
           >
-            View Products
+            <Link to={`/collections/${collection.handle}`}>
+              View Products
+            </Link>
           </Button>
         </div>
       </CardContent>

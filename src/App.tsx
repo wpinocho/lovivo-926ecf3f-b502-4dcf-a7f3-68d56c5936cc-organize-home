@@ -14,6 +14,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { FaviconManager } from "@/components/FaviconManager";
 import Index from "./pages/Index";
 import Product from "./pages/Product";
+import Collection from "./pages/Collection";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import NotFound from "./pages/NotFound";
@@ -52,13 +53,13 @@ const App = () => (
                     <Routes>
                       <Route path="/" element={<Index />} />
                       <Route path="/products/:slug" element={<Product />} />
+                      <Route path="/collections/:handle" element={<Collection />} />
                       <Route path="/cart" element={<Cart />} />
                       <Route path="/checkout" element={<Checkout />} />
                       <Route path="/thank-you/:orderId" element={<ThankYou />} />
                       <Route path="/my-orders" element={<MyOrders />} />
                       <Route path="/blog" element={<Blog />} />
                       <Route path="/blog/:slug" element={<BlogPost />} />
-                      {/* Aquí puedes agregar/modificar rutas */}
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                   </CartUIProvider>

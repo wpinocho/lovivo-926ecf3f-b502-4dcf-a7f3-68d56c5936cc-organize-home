@@ -4,11 +4,17 @@ import { BrandLogoLeft } from '@/components/BrandLogoLeft'
 import { SocialLinks } from '@/components/SocialLinks'
 import { FloatingCart } from '@/components/FloatingCart'
 import { ProfileMenu } from '@/components/ProfileMenu'
+import { AnnouncementBar } from '@/components/AnnouncementBar'
+import { MobileMenu } from '@/components/MobileMenu'
+import { SearchModal } from '@/components/SearchModal'
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { ShoppingCart } from 'lucide-react'
 import { useCartUI } from '@/components/CartProvider'
 import { useCart } from '@/contexts/CartContext'
+import { useQuery } from '@tanstack/react-query'
+import { supabase } from '@/lib/supabase'
+import { STORE_ID } from '@/lib/config'
 
 interface EcommerceTemplateProps {
   children: ReactNode
@@ -33,70 +39,99 @@ export const EcommerceTemplate = ({
   const { getTotalItems } = useCart()
   const totalItems = getTotalItems()
 
+  const { data: collections = [] } = useQuery({
+    queryKey: ['collections-header'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('collections')
+        .select('*')
+        .eq('status', 'active')
+        .eq('store_id', STORE_ID)
+        .order('created_at', { ascending: false })
+
+      if (error) throw error
+      return data || []
+    }
+  })
+
   const header = (
-    <div className={`py-5 border-b border-border/50 ${headerClassName}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center">
-            <Link to="/">
-              <BrandLogoLeft />
-            </Link>
+    <>
+      <AnnouncementBar />
+      <div className={`py-5 border-b border-border/50 ${headerClassName}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <MobileMenu />
+              <Link to="/">
+                <BrandLogoLeft />
+              </Link>
+            </div>
+
+            <div className="hidden md:flex items-center space-x-8">
+              <nav className="flex space-x-8">
+                <Link 
+                  to="/" 
+                  className="text-foreground/70 hover:text-foreground transition-colors text-sm font-light"
+                >
+                  Home
+                </Link>
+                {collections.map((collection) => (
+                  <Link
+                    key={collection.id}
+                    to={`/collections/${collection.handle}`}
+                    className="text-foreground/70 hover:text-foreground transition-colors text-sm font-light"
+                  >
+                    {collection.name}
+                  </Link>
+                ))}
+                <Link 
+                  to="/blog" 
+                  className="text-foreground/70 hover:text-foreground transition-colors text-sm font-light"
+                >
+                  Blog
+                </Link>
+              </nav>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <SearchModal />
+              <ProfileMenu />
+              
+              {showCart && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={openCart}
+                  className="relative hover:bg-secondary"
+                  aria-label="View cart"
+                >
+                  <ShoppingCart className="h-5 w-5" />
+                  {totalItems > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                      {totalItems > 99 ? '99+' : totalItems}
+                    </span>
+                  )}
+                </Button>
+              )}
+            </div>
           </div>
 
-          <div className="hidden md:flex items-center space-x-8">
-            <nav className="flex space-x-8">
-              <Link 
-                to="/" 
-                className="text-foreground/70 hover:text-foreground transition-colors text-sm font-light"
-              >
-                Home
-              </Link>
-              <Link 
-                to="/blog" 
-                className="text-foreground/70 hover:text-foreground transition-colors text-sm font-light"
-              >
-                Blog
-              </Link>
-            </nav>
-          </div>
-
-          <div className="flex items-center space-x-2">
-            <ProfileMenu />
-            
-            {showCart && (
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={openCart}
-                className="relative hover:bg-secondary"
-                aria-label="View cart"
-              >
-                <ShoppingCart className="h-5 w-5" />
-                {totalItems > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
-                    {totalItems > 99 ? '99+' : totalItems}
-                  </span>
-                )}
-              </Button>
-            )}
-          </div>
+          {pageTitle && (
+            <div className="mt-8">
+              <h1 className="text-4xl font-light text-foreground tracking-tight">
+                {pageTitle}
+              </h1>
+            </div>
+          )}
         </div>
-
-        {pageTitle && (
-          <div className="mt-8">
-            <h1 className="text-4xl font-light text-foreground tracking-tight">
-              {pageTitle}
-            </h1>
-          </div>
-        )}
       </div>
-    </div>
+    </>
   )
 
   const footer = (
     <div className={`bg-foreground text-background py-16 ${footerClassName}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           <div>
             <div className="mb-4">
               <BrandLogoLeft />
@@ -123,6 +158,23 @@ export const EcommerceTemplate = ({
               >
                 Blog
               </Link>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="font-normal mb-4 text-background text-sm uppercase tracking-wider">
+              Collections
+            </h3>
+            <div className="space-y-2">
+              {collections.map((collection) => (
+                <Link
+                  key={collection.id}
+                  to={`/collections/${collection.handle}`}
+                  className="block text-background/70 hover:text-background transition-colors text-sm font-light"
+                >
+                  {collection.name}
+                </Link>
+              ))}
             </div>
           </div>
 

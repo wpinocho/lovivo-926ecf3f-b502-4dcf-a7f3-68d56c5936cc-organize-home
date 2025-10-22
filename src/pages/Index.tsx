@@ -1,19 +1,16 @@
-import { HeadlessIndex } from '@/components/headless/HeadlessIndex';
-import { IndexUI } from '@/pages/ui/IndexUI';
-
-/**
- * ROUTE COMPONENT - Index
- * 
- * Este componente solo conecta HeadlessIndex con IndexUI.
- * Toda la lógica está en HeadlessIndex y la presentación en IndexUI.
- */
+import { HeadlessIndex } from '@/components/headless/HeadlessIndex'
+import { IndexUI } from '@/pages/ui/IndexUI'
+import { DiscountPopup } from '@/components/DiscountPopup'
 
 const Index = () => {
   return (
-    <HeadlessIndex>
-      {(logic) => <IndexUI logic={logic} />}
-    </HeadlessIndex>
-  );
-};
+    <>
+      <HeadlessIndex>
+        {(logic) => <IndexUI logic={logic} />}
+      </HeadlessIndex>
+      <DiscountPopup />
+    </>
+  )
+}
 
-export default Index;
+export default Index

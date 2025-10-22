@@ -185,11 +185,14 @@ export const ProductPageUI = ({ logic }: ProductPageUIProps) => {
                 <Button
                   onClick={logic.handleAddToCart}
                   disabled={!logic.inStock}
-                  className="flex-1"
+                  className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 hover:scale-105 hover:shadow-lg active:scale-95 group relative overflow-hidden"
                   size="lg"
                 >
-                  <ShoppingCart className="mr-2 h-4 w-4" />
-                  {logic.inStock ? 'Add to cart' : 'Out of stock'}
+                  <span className="absolute inset-0 bg-gradient-to-r from-primary/0 via-white/20 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></span>
+                  <ShoppingCart className="mr-2 h-4 w-4 group-hover:animate-bounce" />
+                  <span className="relative z-10">
+                    {logic.inStock ? 'Add to cart' : 'Out of stock'}
+                  </span>
                 </Button>
                 
                 {!logic.inStock && (

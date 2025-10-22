@@ -19,54 +19,54 @@ export default {
 		},
 		extend: {
 			colors: {
-				border: 'hsl(var(--border))',
-				input: 'hsl(var(--input))',
-				ring: 'hsl(var(--ring))',
-				background: 'hsl(var(--background))',
-				foreground: 'hsl(var(--foreground))',
+				border: '0 0% 89.8%',
+				input: '0 0% 89.8%',
+				ring: '142.1 76.2% 36.3%',
+				background: '0 0% 100%',
+				foreground: '220 26% 14%',
 				primary: {
-					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))'
+					DEFAULT: '142.1 76.2% 36.3%',
+					foreground: '0 0% 100%'
 				},
 				secondary: {
-					DEFAULT: 'hsl(var(--secondary))',
-					foreground: 'hsl(var(--secondary-foreground))'
+					DEFAULT: '220 14% 96%',
+					foreground: '220 26% 14%'
 				},
 				destructive: {
-					DEFAULT: 'hsl(var(--destructive))',
-					foreground: 'hsl(var(--destructive-foreground))'
+					DEFAULT: '0 84.2% 60.2%',
+					foreground: '0 0% 98%'
 				},
 				muted: {
-					DEFAULT: 'hsl(var(--muted))',
-					foreground: 'hsl(var(--muted-foreground))'
+					DEFAULT: '220 14% 96%',
+					foreground: '220 9% 46%'
 				},
 				accent: {
-					DEFAULT: 'hsl(var(--accent))',
-					foreground: 'hsl(var(--accent-foreground))'
+					DEFAULT: '142.1 76.2% 36.3%',
+					foreground: '0 0% 100%'
 				},
 				popover: {
-					DEFAULT: 'hsl(var(--popover))',
-					foreground: 'hsl(var(--popover-foreground))'
+					DEFAULT: '0 0% 100%',
+					foreground: '220 26% 14%'
 				},
 				card: {
-					DEFAULT: 'hsl(var(--card))',
-					foreground: 'hsl(var(--card-foreground))'
+					DEFAULT: '0 0% 100%',
+					foreground: '220 26% 14%'
 				},
 				sidebar: {
-					DEFAULT: 'hsl(var(--sidebar-background))',
-					foreground: 'hsl(var(--sidebar-foreground))',
-					primary: 'hsl(var(--sidebar-primary))',
-					'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
-					accent: 'hsl(var(--sidebar-accent))',
-					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
-					border: 'hsl(var(--sidebar-border))',
-					ring: 'hsl(var(--sidebar-ring))'
+					DEFAULT: '0 0% 98%',
+					foreground: '220 9% 46%',
+					primary: '220 26% 14%',
+					'primary-foreground': '0 0% 98%',
+					accent: '220 14% 96%',
+					'accent-foreground': '220 26% 14%',
+					border: '220 13% 91%',
+					ring: '142.1 76.2% 36.3%'
 				}
 			},
 			borderRadius: {
-				lg: 'var(--radius)',
-				md: 'calc(var(--radius) - 2px)',
-				sm: 'calc(var(--radius) - 4px)'
+				lg: '0.5rem',
+				md: '0.375rem',
+				sm: '0.25rem'
 			},
 			keyframes: {
 				'accordion-down': {
